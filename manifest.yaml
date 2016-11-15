@@ -1,10 +1,13 @@
 Format: 1.3
 Type: Application
-FullName: ca.cybera.WordPressAIO
-Name: WordPress All-in-One
+FullName: ca.cybera.PostgreSqL
+Name: PostgreSQL
 Description: |
- WordPress is a free and open source blogging tool and a content management system (CMS) based on PHP and MySQL.
+ PostgreSQL is a powerful, open source object-relational database system.
+ It has more than 15 years of active development and a proven architecture
+ that has earned it a strong reputation for reliability, data integrity,
+ and correctness.
 Author: 'Cybera Inc'
-Tags: [CMS, PHP, Web]
+Tags: [Database, Postgre, SQL, RDBMS]
 Classes:
-  ca.cybera.WordPressAIO: WordPressAIO.yaml
+  ca.cybera.PostgreSql: PostgreSql.yaml

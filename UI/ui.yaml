@@ -1,56 +1,24 @@
 Version: 2
 Templates:
-  MySQLVolumes:
+  PostgreSQLVolumes:
     '/dev/vdd':
         ?:
           type: io.murano.resources.CinderVolume
         size: 2
 Application:
   ?:
-    type: ca.cybera.WordPressAIO
-  dbRootPassword: $.dbConfiguration.password
-  wpDbPassword: $.wpConfiguration.password
+    type: ca.cybera.PostgreSql
   instance:
     ?:
       type: io.murano.resources.LinuxMuranoInstance
     name: generateHostname($.instanceConfiguration.unitNamingPattern, 1)
     flavor: $.instanceConfiguration.flavor
     image: $.instanceConfiguration.osImage
-    volumes: $MySQLVolumes
+    volumes: $PostgreSQLVolumes
     keyname: $.instanceConfiguration.keyPair
     assignFloatingIp: $.instanceConfiguration.assignFloatingIP
 
 Forms:
-  - dbConfiguration:
-      fields:
-        - name: title
-          type: string
-          required: false
-          hidden: true
-          descriptionTitle: Database Configuration
-          description: Specify the MySQL database properties
-        - name: password
-          type: password
-          label: MySQL Root Password
-          descriptionTitle: Password
-          description: >-
-            Please provide the root MySQL password.
-
-  - wpConfiguration:
-      fields:
-        - name: title
-          type: string
-          required: false
-          hidden: true
-          descriptionTitle: WordPress Configuration
-          description: Specify WordPress configuration properties
-        - name: password
-          type: password
-          label: WordPress MySQL Password
-          descriptionTitle: Password
-          description: >-
-            Please provide the password that is going to be used to connect to the database.
-
   - instanceConfiguration:
       fields:
         - name: title
@@ -58,7 +26,7 @@ Forms:
           required: false
           hidden: true
           description: >-
-            Specify the instance parameters for the WordPress environment.
+            Specify the instance parameters.
         - name: flavor
           type: flavor
           label: Instance flavor
@@ -82,7 +50,7 @@ Forms:
           minValue: 1
           maxValue: 1024
           description: >-
-            Size of the volume to be created for MySql database.Must be between 1 and 1024Gb
+            Size of the volume to be created for PostgreSql database.Must be between 1 and 1024Gb
         - name: keyPair
           type: keypair
           label: Key Pair

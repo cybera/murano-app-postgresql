@@ -1,0 +1,52 @@
+Namespaces:
+  =: ca.cybera
+  conf: io.murano.configuration
+  res: io.murano.resources
+  std: io.murano
+  sys: io.murano.system
+
+Name: PostgreSql
+Extends: std:Application
+
+Properties:
+  instance:
+    Contract: $.class(res:Instance).notNull()
+
+Methods:
+  .init:
+    Body:
+      - $._environment: $.find(std:Environment).require()
+
+  deploy:
+    Body:
+      - If: not $.getAttr(deployed, false)
+        Then:
+          # Create Security Group
+          - $._environment.reporter.report($this, 'Creating security group')
+          - $securityGroupIngress:
+            - ToPort: 5432
+              FromPort: 5432
+              IpProtocol: tcp
+              External: true
+          - $._environment.securityGroupManager.addGroupIngress($securityGroupIngress)
+
+          - $._environment.reporter.report($this, 'Creating instance for PostgreSql')
+
+          # Launch the instance
+          - $.instance.deploy()
+
+          # Deploy PostgreSQL
+          - $._environment.reporter.report($this, 'Deploying PostgreSQL')
+          - $file: sys:Resources.string('deployPostgreSQL.sh')
+          - conf:Linux.runCommand($.instance.agent, $file)
+          - $._environment.reporter.report($this, 'PostgreSQL is installed.')
+
+          # Assign Floating IP
+          - If: $.instance.assignFloatingIp
+            Then:
+              - $host: $.instance.floatingIpAddress
+            Else:
+              - $host: $.instance.ipAddresses.first()
+          - $._environment.reporter.report($this, 'PostgreSQL is available at' + $host + ':5432')
+
+          - $.setAttr(deployed, true)
