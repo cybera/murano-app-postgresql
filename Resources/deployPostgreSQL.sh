@@ -14,4 +14,8 @@ sudo rsync -av /var/lib/postgresql  /opt/postgresql_data
 sudo rm -r /var/lib/postgresql/
 sudo ln -s /opt/postgresql_data/postgresql /var/lib/postgresql
 
+echo "host    all             all             %CONNECTION_IP%/32            md5"| sudo tee --append /etc/postgresql/9.3/main/pg_hba.conf
+sudo sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/9.3/main/postgresql.conf
+
 sudo service postgresql start
+sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '%POSTGRES_PASSWORD%';"

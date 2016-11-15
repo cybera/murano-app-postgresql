@@ -4,10 +4,12 @@ Templates:
     '/dev/vdd':
         ?:
           type: io.murano.resources.CinderVolume
-        size: 2
+        size: $.instanceConfiguration.volSize
 Application:
   ?:
     type: ca.cybera.PostgreSql
+  dbRootPassword: $.dbConfiguration.password
+  connectionIP: $.instanceConfiguration.connectionIP
   instance:
     ?:
       type: io.murano.resources.LinuxMuranoInstance
@@ -19,6 +21,21 @@ Application:
     assignFloatingIp: $.instanceConfiguration.assignFloatingIP
 
 Forms:
+  - dbConfiguration:
+      fields:
+        - name: title
+          type: string
+          required: false
+          hidden: true
+          descriptionTitle: Database Configuration
+          description: Specify the PostgreSqL database properties
+        - name: password
+          type: password
+          label: PostgreSqL postgres password
+          descriptionTitle: Password
+          description: >-
+            Please provide the password for postgres user.
+
   - instanceConfiguration:
       fields:
         - name: title
@@ -43,6 +60,14 @@ Forms:
           label: Instance image
           description: >-
             Select an image. It must be Ubuntu-based.
+        - name: connectionIP
+          type: string
+          regexpValidator: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
+          errorMessages:
+            invalid: Enter valid IP address.
+          label: IP to connect from
+          description: >-
+            Set private IP address to whitelist to control access to the DB
         - name: volSize
           type: integer
           label: Volume size
