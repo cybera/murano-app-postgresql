@@ -13,6 +13,14 @@ Properties:
     Contract: $.string().notNull()
   connectionIP:
     Contract: $.string().notNull()
+  openstackTenant:
+    Contract: $.string().notNull()
+  openstackUser:
+    Contract: $.string().notNull()
+  openstackPassword:
+    Contract: $.string().notNull()
+  doBackups:
+    Contract: $.bool().notNull()
   instance:
     Contract: $.class(res:Instance).notNull()
 
@@ -46,12 +54,18 @@ Methods:
           - conf:Linux.runCommand($.instance.agent, $file)
           - $._environment.reporter.report($this, 'PostgreSQL is installed.')
 
-          # Assign Floating IP
-          - If: $.instance.assignFloatingIp
+          # Backups
+          - If: $.doBackups
             Then:
-              - $host: $.instance.floatingIpAddress
-            Else:
-              - $host: $.instance.ipAddresses.first()
-          - $._environment.reporter.report($this, 'PostgreSQL is available at' + $host + ':5432')
+              - $replacements:
+                  "%TENANT%": $.openstackTenant
+                  "%USERID%": $.openstackUser
+                  "%PASSWORD%": $.openstackPassword
+              - $file: sys:Resources.string('deployBackups.sh').replace($replacements)
+              - conf:Linux.runCommand($.instance.agent, $file)
+              - $._environment.reporter.report($this, 'Backups are enabled.')
+
+          - $host: $.instance.ipAddresses.first()
+          - $._environment.reporter.report($this, 'PostgreSQL is available at ' + $host + ':5432')
 
           - $.setAttr(deployed, true)

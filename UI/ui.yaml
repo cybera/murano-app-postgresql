@@ -10,6 +10,10 @@ Application:
     type: ca.cybera.PostgreSql
   dbRootPassword: $.dbConfiguration.password
   connectionIP: $.instanceConfiguration.connectionIP
+  doBackups: $.backupConfiguration.doBackups
+  openstackTenant: $.backupConfiguration.tenant
+  openstackUser: $.backupConfiguration.userID
+  openstackPassword: $.backupConfiguration.password
   instance:
     ?:
       type: io.murano.resources.LinuxMuranoInstance
@@ -18,7 +22,6 @@ Application:
     image: $.instanceConfiguration.osImage
     volumes: $PostgreSQLVolumes
     keyname: $.instanceConfiguration.keyPair
-    assignFloatingIp: $.instanceConfiguration.assignFloatingIP
 
 Forms:
   - dbConfiguration:
@@ -83,13 +86,6 @@ Forms:
             Select the Key Pair to control access to instances. You can login to
             instances using this KeyPair after the deployment of application.
           required: false
-        - name: assignFloatingIP
-          type: boolean
-          label: Assign Floating IP
-          description: >-
-            Set to true to assign a floating IP automatically.
-          initial: false
-          required: false
         - name: unitNamingPattern
           type: string
           label: Instance Naming Pattern
@@ -102,3 +98,35 @@ Forms:
           description: >-
             Specify a string, that will be used in instance hostname.
             Just A-Z, a-z, 0-9, dash and underline are allowed.
+  - backupConfiguration:
+      fields:
+        - name: title
+          type: string
+          required: false
+          hidden: true
+          descriptionTitle: Backup Configuration
+        - name: doBackups
+          type: boolean
+          label: Check to enable backups
+          description: >-
+            Set to true to enable weekly and monthly backups to object store.
+          initial: true
+          required: false
+        - name: tenant
+          type: string
+          label: Openstack Tenant
+          descriptionTitle: Tenant
+          description: >-
+            Please provide your OpenStack tenant to access the object store.
+        - name: userID
+          type: string
+          label: Openstack User ID
+          descriptionTitle: UserID
+          description: >-
+            Please provide your OpenStack userid to access the object store.
+        - name: password
+          type: string
+          label: Openstack password
+          descriptionTitle: Password
+          description: >-
+            Please provide your OpenStack  password to access the object store.
