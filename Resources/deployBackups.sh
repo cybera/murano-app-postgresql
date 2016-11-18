@@ -39,7 +39,7 @@ if [[ $? != 0 ]]; then
 EOF
 sudo chmod +x  /usr/local/bin/backup_postgres.sh
 sudo crontab -l > mycron 2>/dev/null
-echo "30 03 */3 * * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
+echo "30 03 */10 * * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
 echo "30 03 01 */3 * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
 sudo crontab mycron
 rm mycron

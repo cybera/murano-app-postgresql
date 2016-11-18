@@ -109,7 +109,7 @@ Forms:
           type: boolean
           label: Check to enable backups
           description: >-
-            Set to true to enable weekly and monthly backups to object store.
+            Set to true to enable backups to object store(every 10 days and every 3 months).
           initial: true
           required: false
         - name: tenant
