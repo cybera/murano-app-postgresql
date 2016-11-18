@@ -11,7 +11,7 @@ sudo apt-get install -y python-pip
 sudo apt-get -y install python-swiftclient
 
 sudo mkdir /var/lib/postgres_backups
-sudo bash -c "cat > /usr/local/bin/backup_postgres.sh <<EOF
+cat << 'EOF' | sudo tee -a  /usr/local/bin/backup_postgres.sh
 #!/bin/bash
 backup_dir="/var/lib/postgres_backups"
 filename="postgres-`hostname`-`eval date +%Y%m%d`.sql.gz"
@@ -36,7 +36,7 @@ if [[ $? != 0 ]]; then
         echo "Error uploading backup"
           exit 1
         fi
-EOF"
+EOF
 sudo chmod +x  /usr/local/bin/backup_postgres.sh
 sudo crontab -l > mycron 2>/dev/null
 echo "30 03 */3 * * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
