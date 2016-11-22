@@ -1,6 +1,6 @@
 #!/bin/bash
 
-vol=$(sudo readlink -e /dev/disk/by-uuid/$(sudo lsblk -o name,type,mountpoint,label,uuid | grep -v root | grep -v ephem | grep -v SWAP | grep -v vda | tail -1 | awk '{print $3}'))
+vol='/dev/'$(sudo lsblk -o name,type,mountpoint,label,uuid | grep -v root | grep -v ephem | grep -v SWAP | grep -v vda | tail -1 |awk '{print $1}')
 
 sudo mkfs -t ext4 $vol
 sudo mkdir /opt/postgresql_data
