@@ -1,10 +1,5 @@
 Version: 2
-Templates:
-  PostgreSQLVolumes:
-    '/dev/vdd':
-        ?:
-          type: io.murano.resources.CinderVolume
-        size: $.instanceConfiguration.volSize
+
 Application:
   ?:
     type: ca.cybera.PostgreSQL
@@ -14,6 +9,7 @@ Application:
   openstackTenant: $.backupConfiguration.tenant
   openstackUser: $.backupConfiguration.userID
   openstackPassword: $.backupConfiguration.password
+  volSize: $.instanceConfiguration.volSize
   instance:
     ?:
       type: io.murano.resources.LinuxMuranoInstance
@@ -114,18 +110,21 @@ Forms:
           required: false
         - name: tenant
           type: string
+          required: false
           label: Openstack Tenant
           descriptionTitle: Tenant
           description: >-
             Please provide your OpenStack tenant to access the object storage system.
         - name: userID
           type: string
+          required: false
           label: Openstack User ID
           descriptionTitle: UserID
           description: >-
             Please provide your OpenStack userid to access the object storage system.
         - name: password
           type: string
+          required: false
           label: Openstack password
           descriptionTitle: Password
           description: >-
