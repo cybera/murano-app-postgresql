@@ -111,10 +111,10 @@ Forms:
         - name: tenant
           type: string
           required: false
-          label: Openstack Tenant
-          descriptionTitle: Tenant
+          label: Openstack Tenant name
+          descriptionTitle: Tenant name
           description: >-
-            Please provide your OpenStack tenant to access the object storage system.
+            Please provide your OpenStack tenant name  to access the object storage system.
         - name: userID
           type: string
           required: false
