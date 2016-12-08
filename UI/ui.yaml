@@ -122,7 +122,7 @@ Forms:
         - name: password
           type: password
           required: false
-          regexpValidator: '^.{5,20}?$'
+          regexpValidator: '^.{5,100}?$'
           label: Openstack password
           descriptionTitle: Password
           description: >-
