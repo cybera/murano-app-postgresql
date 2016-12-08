@@ -30,7 +30,7 @@ Forms:
           description: Specify the PostgreSQL database properties
         - name: password
           type: password
-          regexpValidator: '^.{5,20}?$'
+          regexpValidator: '^.{5,100}?$'
           label: PostgreSQL admin password
           descriptionTitle: Password
           description: >-
