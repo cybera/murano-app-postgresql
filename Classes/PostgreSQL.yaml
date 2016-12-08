@@ -13,9 +13,9 @@ Properties:
     Contract: $.string().notNull()
   connectionIP:
     Contract: $.string().notNull()
-  openstackTenant:
+  openstackTenantID:
     Contract: $.string().notNull()
-  openstackUser:
+  openstackUsername:
     Contract: $.string().notNull()
   openstackPassword:
     Contract: $.string().notNull()
@@ -89,8 +89,8 @@ Methods:
           - If: $.doBackups
             Then:
               - $replacements:
-                  "%TENANT%": $.openstackTenant
-                  "%USERID%": $.openstackUser
+                  "%TENANTID%": $.openstackTenantID
+                  "%USERNAME%": $.openstackUsername
                   "%PASSWORD%": $.openstackPassword
               - $file: sys:Resources.string('deployBackups.sh').replace($replacements)
               - conf:Linux.runCommand($.instance.agent, $file)

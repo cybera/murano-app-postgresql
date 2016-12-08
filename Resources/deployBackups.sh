@@ -24,8 +24,8 @@ case $_ip in
     ;;
 esac
 
-echo "export OS_TENANT_NAME=%TENANT%
-export OS_USERNAME=%USERID%
+echo "export OS_TENANT_ID=%TENANTID%
+export OS_USERNAME=%USERNAME%
 export OS_PASSWORD=%PASSWORD%
 export OS_AUTH_URL=https://${_keystone}:5000/v2.0/
 export OS_AUTH_STRATEGY=keystone

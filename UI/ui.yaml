@@ -6,8 +6,8 @@ Application:
   dbRootPassword: $.dbConfiguration.password
   connectionIP: $.instanceConfiguration.connectionIP
   doBackups: $.backupConfiguration.doBackups
-  openstackTenant: $.backupConfiguration.tenant
-  openstackUser: $.backupConfiguration.userID
+  openstackTenantID: $.backupConfiguration.tenantID
+  openstackUsername: $.backupConfiguration.username
   openstackPassword: $.backupConfiguration.password
   volSize: $.instanceConfiguration.volSize
   instance:
@@ -30,10 +30,13 @@ Forms:
           description: Specify the PostgreSQL database properties
         - name: password
           type: password
+          regexpValidator: '^.{5,20}?$'
           label: PostgreSQL admin password
           descriptionTitle: Password
           description: >-
-            Please provide the password for PostgreSQL user.
+            Please provide the root PostgreSQL password.
+          helpText: >-
+            Password must be between 5 and 20 characters long.
 
   - instanceConfiguration:
       fields:
@@ -108,24 +111,21 @@ Forms:
             Set to true to enable backups to the object storage system (every 10 days and every 3 months).
           initial: true
           required: false
-        - name: tenant
-          type: string
-          required: false
-          label: Openstack Tenant Name
-          descriptionTitle: Tenant name
-          description: >-
-            Please provide your OpenStack tenant name  to access the object storage system.
-        - name: userID
-          type: string
-          required: false
-          label: Openstack User ID
-          descriptionTitle: UserID
-          description: >-
-            Please provide your OpenStack userid to access the object storage system.
+        - name: tenantID
+          type: tenantid
+          required: true
+          hidden: true
+        - name: username
+          type: username
+          required: true
+          hidden: true
         - name: password
-          type: string
+          type: password
           required: false
+          regexpValidator: '^.{5,20}?$'
           label: Openstack password
           descriptionTitle: Password
           description: >-
-            Please provide your OpenStack  password to access the object storage system.
+            Please provide your OpenStack password to access the object storage system.
+          helpText: >-
+            Password must be between 5 and 20 characters long.
