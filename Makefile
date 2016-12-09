@@ -5,4 +5,4 @@ zip:
 	zip -r ca.cybera.PostgreSQL.zip *
 
 upload:
-	murano package-import --exists-action u ca.cybera.PostgreSQL.zip
+	murano package-import --is-public --exists-action u ca.cybera.PostgreSQL.zip

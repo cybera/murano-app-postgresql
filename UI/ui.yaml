@@ -3,23 +3,41 @@ Version: 2
 Application:
   ?:
     type: ca.cybera.PostgreSQL
+  name: $.appConfiguration.name
   dbRootPassword: $.dbConfiguration.password
-  connectionIP: $.instanceConfiguration.connectionIP
+  connectionIP: $.dbConfiguration.connectionIP
   doBackups: $.backupConfiguration.doBackups
   openstackTenantID: $.backupConfiguration.tenantID
   openstackUsername: $.backupConfiguration.username
   openstackPassword: $.backupConfiguration.password
-  volSize: $.instanceConfiguration.volSize
   instance:
     ?:
       type: io.murano.resources.LinuxMuranoInstance
     name: generateHostname($.instanceConfiguration.unitNamingPattern, 1)
     flavor: $.instanceConfiguration.flavor
     image: $.instanceConfiguration.osImage
-    volumes: $PostgreSQLVolumes
     keyname: $.instanceConfiguration.keyPair
+  volume:
+     ?:
+       type: io.murano.resources.CinderVolume
+     name: 'MuranoVolume-PostgreSQL'
+     size: $.volumeConfiguration.volumeSize
 
 Forms:
+  - appConfiguration:
+      fields:
+        - name: license
+          type: string
+          description: Apache License, Version 2.0
+          hidden: true
+          required: false
+        - name: name
+          type: string
+          label: Application Name
+          initial: PostgreSQL
+          description: >-
+           Enter a desired name for the application. Just A-Z, a-z, 0-9, dash and
+           underline are allowed
   - dbConfiguration:
       fields:
         - name: title
@@ -28,6 +46,14 @@ Forms:
           hidden: true
           descriptionTitle: Database Configuration
           description: Specify the PostgreSQL database properties
+        - name: connectionIP
+          type: string
+          regexpValidator: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
+          errorMessages:
+            invalid: Enter valid IP address.
+          label: IP to connect from
+          description: >-
+            Set a private IP address to whitelist to control access to the DB.
         - name: password
           type: password
           regexpValidator: '^.{5,100}?$'
@@ -36,8 +62,23 @@ Forms:
           description: >-
             Please provide the root PostgreSQL password.
           helpText: >-
-            Password must be between 5 and 20 characters long.
-
+            Password must be between 5 and 100 characters long.
+  - volumeConfiguration:
+      fields:
+        - name: title
+          type: string
+          required: false
+          hidden: true
+          description: >-
+            A volume will be created to host the MySQL databases.
+        - name: volumeSize
+          type: integer
+          label: Volume size
+          required: true
+          minValue: 1
+          maxValue: 1024
+          description: >-
+            Size of the volume (in GB) to be created for MySQL.
   - instanceConfiguration:
       fields:
         - name: title
@@ -62,22 +103,6 @@ Forms:
           label: Instance image
           description: >-
             Select an image. It must be Ubuntu-based.
-        - name: connectionIP
-          type: string
-          regexpValidator: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
-          errorMessages:
-            invalid: Enter valid IP address.
-          label: IP to connect from
-          description: >-
-            Set a private IP address to whitelist to control access to the DB.
-        - name: volSize
-          type: integer
-          label: Volume size
-          required: true
-          minValue: 1
-          maxValue: 1024
-          description: >-
-            Size of the volume (in GB) to be created for PostgreSQL database.
         - name: keyPair
           type: keypair
           label: Key Pair

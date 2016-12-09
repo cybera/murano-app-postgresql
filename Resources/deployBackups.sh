@@ -55,7 +55,7 @@ find $backup_dir -ctime +20 -type f -delete
 # Upload to swift
 source /root/openrc
 cd $backup_dir
-swift upload postgresql $filename > /dev/null
+swift upload postgresql_murano_backups  $filename > /dev/null
 if [[ $? != 0 ]]; then
   echo "Error uploading backup"
   exit 1
