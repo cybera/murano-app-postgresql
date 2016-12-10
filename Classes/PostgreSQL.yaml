@@ -52,7 +52,7 @@ Methods:
               FromPort: 5432
               IpProtocol: tcp
               External: true
-          - $._environment.securityGroupManager.addGroupIngress($securityGroupIngress,'MuranoSecurityGroup-PostgreSQL')
+          - $._environment.securityGroupManager.addGroupIngress($securityGroupIngress, 'MuranoSecurityGroup-PostgreSQL')
 
           # Launch the instance
           - $._environment.reporter.report($this, 'Creating instance for PostgreSQL')

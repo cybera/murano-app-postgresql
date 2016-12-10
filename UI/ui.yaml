@@ -17,6 +17,7 @@ Application:
     flavor: $.instanceConfiguration.flavor
     image: $.instanceConfiguration.osImage
     keyname: $.instanceConfiguration.keyPair
+    securityGroupName: 'MuranoSecurityGroup-PostgreSQL'
   volume:
      ?:
        type: io.murano.resources.CinderVolume
