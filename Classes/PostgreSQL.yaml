@@ -15,9 +15,6 @@ Properties:
   instance:
     Contract: $.class(res:LinuxMuranoInstance).notNull()
 
-  volume:
-    Contract: $.class(res:CinderVolume).notNull()
-
   dbRootPassword:
     Contract: $.string().notNull()
 
@@ -57,16 +54,6 @@ Methods:
           # Launch the instance
           - $._environment.reporter.report($this, 'Creating instance for PostgreSQL')
           - $.instance.deploy()
-
-          # Create volume
-          - $._environment.reporter.report($this, 'Creating a new volume')
-          - $.volume.deploy()
-
-          # Attach the volume to the instance
-          - $._environment.reporter.report($this, 'Attaching the volume to the VM')
-          - $attachment: $.volume.attachTo($.instance)
-          - $._environment.stack.updateTemplate($attachment.template)
-          - $._environment.stack.push()
 
           # Deploy PostgreSQL
           - $._environment.reporter.report($this, 'Deploying PostgreSQL')

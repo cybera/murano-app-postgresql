@@ -18,12 +18,12 @@ Application:
     image: $.instanceConfiguration.osImage
     keyname: $.instanceConfiguration.keyPair
     securityGroupName: 'MuranoSecurityGroup-PostgreSQL'
-  volume:
-     ?:
-       type: io.murano.resources.CinderVolume
-     name: 'MuranoVolume-PostgreSQL'
-     size: $.volumeConfiguration.volumeSize
-
+    volumes:
+      '/dev/vdd':
+        ?:
+          type: io.murano.resources.CinderVolume
+        name: 'MuranoVolume-PostgreSQL'
+        size: $.volumeConfiguration.volumeSize
 Forms:
   - appConfiguration:
       fields:
