@@ -71,7 +71,7 @@ Forms:
           required: false
           hidden: true
           description: >-
-            A volume will be created to host the MySQL databases.
+            A volume will be created to host the PostgreSQL databases.
         - name: volumeSize
           type: integer
           label: Volume size
@@ -79,7 +79,7 @@ Forms:
           minValue: 1
           maxValue: 1024
           description: >-
-            Size of the volume (in GB) to be created for MySQL.
+            Size of the volume (in GB) to be created for PostgreSQL.
   - instanceConfiguration:
       fields:
         - name: title
