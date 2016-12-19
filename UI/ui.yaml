@@ -49,12 +49,14 @@ Forms:
           description: Specify the PostgreSQL database properties
         - name: connectionIP
           type: string
+          label: IP address to restrict remote access to the database
+          required: false
           regexpValidator: '^(([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])\.){3}([0-9]|[1-9][0-9]|1[0-9]{2}|2[0-4][0-9]|25[0-5])$'
           errorMessages:
             invalid: Enter valid IP address.
-          label: IP to connect from
           description: >-
-            Set a private IP address to whitelist to control access to the DB.
+            If IP address is specified  - remote access will be enabled and DB configuration will restrict access  only from  that IP.
+            Otherwise remote access will be  disabled by deafult, to enable it - please proceed with manual configuration.
         - name: password
           type: password
           regexpValidator: '^.{5,100}?$'

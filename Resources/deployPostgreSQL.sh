@@ -16,8 +16,11 @@ sudo rsync -av /var/lib/postgresql  /opt/postgresql_data
 sudo rm -rf /var/lib/postgresql/
 sudo ln -s /opt/postgresql_data/postgresql /var/lib/postgresql
 
-echo "host    all             all             %CONNECTION_IP%/32            md5" | sudo tee --append $location2
-sudo sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" $location1
+if [%CONNECTION_IP% !=""]
+then
+  echo "host    all             all             %CONNECTION_IP%/32            md5" | sudo tee --append $location2
+  sudo sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" $location1
+fi
 
 sudo service postgresql start
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '%POSTGRES_PASSWORD%';"
