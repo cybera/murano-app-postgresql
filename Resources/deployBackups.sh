@@ -35,7 +35,8 @@ if (python -mplatform | grep -qi Ubuntu)
 then #Ubuntu
     apt-get install -y python-pip python-swiftclient
 else #CentOS
-    yum -y install python-devel python-pip python-swiftclient
+    rm -rf /usr/lib/python2.7/site-packages/requests
+    yum -y install python-requests python-swiftclient
 fi
 
 mkdir /var/lib/postgres_backups
