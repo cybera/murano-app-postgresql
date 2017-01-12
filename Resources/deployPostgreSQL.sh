@@ -15,38 +15,37 @@ then #Ubuntu
   rsync -av /var/lib/postgresql  /opt/postgresql_data
   rm -rf /var/lib/postgresql/
   ln -s /opt/postgresql_data/postgresql /var/lib/postgresql
+  service postgresql restart
 
 else #CentOS
   yum clean all
   yum install -y centos-release-openstack-mitaka
   yum -y  update
-  yum install postgresql-server postgresql-contrib
+  yum install -y postgresql-server postgresql-contrib
   systemctl enable postgresql
-  #chown -R postgres:postgres /opt/postgresql_data
-  #chmod 700 /opt/postgresql_data
   mv /var/lib/pgsql/data /opt/postgresql_data/data
   ln -s /opt/postgresql_data/data /var/lib/pgsql/data
   postgresql-setup initdb
   setenforce 0
   sed -i -e "s|enforcing|disabled|g" /etc/selinux/config
+  systemctl restart postgresql
 fi
 
 location1=$(echo $(sudo -u postgres psql -c "show config_file";) | awk '{print $3}')
 location2=$(echo $(sudo -u postgres psql -c "show hba_file";) | awk '{print $3}')
-sed -i -e "s/ident/trust/g" $location2
 
 tmp="%CONNECTION_IP%"
 if  [[ !  -z  $tmp  ]]
 then
   echo "host    all             all             %CONNECTION_IP%/32            md5" | tee --append $location2
   sed -i -e "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" $location1
-  sed -i -e "s/ident/trust/g" $location2
 fi
 
 if (python -mplatform | grep -qi Ubuntu)
 then #Ubuntu
   service postgresql restart
 else #CentOS
+  sed -i -e "s/ident/md5/g" $location2
   systemctl restart postgresql
 fi
 
