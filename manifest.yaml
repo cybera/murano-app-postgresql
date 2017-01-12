@@ -4,8 +4,7 @@ FullName: ca.cybera.PostgreSQL
 Name: PostgreSQL
 Description: |
   PostgreSQL is a relational database management system (RDBMS).
-  This application will store the PostgreSQL databases on a volume
-  and optionally back them up to the Object Storage Service.
+  This application stores PostgreSQL databases on a volume and optionally backs them up to the Object Storage Service. It supports Ubuntu 14.04 and CentOS 7 images.
 Author: 'Cybera Inc'
 Tags: [Database, PostgreSQL, SQL, RDBMS]
 Classes:

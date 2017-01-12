@@ -31,10 +31,14 @@ export OS_AUTH_URL=https://${_keystone}:5000/v2.0/
 export OS_AUTH_STRATEGY=keystone
 export OS_REGION_NAME=${_region}" >> /root/openrc
 
-sudo apt-get install -y python-pip
-sudo apt-get install -y python-swiftclient
+if (python -mplatform | grep -qi Ubuntu)
+then #Ubuntu
+    apt-get install -y python-pip python-swiftclient
+else #CentOS
+    yum -y install python-devel python-pip python-swiftclient
+fi
 
-sudo mkdir /var/lib/postgres_backups
+mkdir /var/lib/postgres_backups
 cat << 'EOF' | sudo tee -a  /usr/local/bin/backup_postgres.sh
 #!/bin/bash
 backup_dir="/var/lib/postgres_backups"
@@ -61,9 +65,9 @@ if [[ $? != 0 ]]; then
   exit 1
 fi
 EOF
-sudo chmod +x  /usr/local/bin/backup_postgres.sh
-sudo crontab -l > mycron 2>/dev/null
+chmod +x  /usr/local/bin/backup_postgres.sh
+crontab -l > mycron 2>/dev/null
 echo "30 03 */10 * * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
 echo "30 03 01 */3 * /usr/local/bin/backup_postgres.sh > /dev/null" >> mycron
-sudo crontab mycron
-rm mycron
+crontab mycron
+rm -f  mycron
