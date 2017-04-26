@@ -45,7 +45,7 @@ Forms:
           type: string
           required: false
           hidden: true
-          descriptionTitle: Database Configuration
+          label: Database Configuration
           description: Specify the PostgreSQL database properties
         - name: connectionIP
           type: string
@@ -55,15 +55,14 @@ Forms:
           errorMessages:
             invalid: Enter valid IP address.
           description: >-
-            If IP address is specified  - remote access will be enabled and DB configuration will restrict access  only from  that IP.
+            If IP address is specified  - remote access will be enabled and root user will got all privileges connecting from  that IP.
             Otherwise remote access will be  disabled by deafult, to enable it - please proceed with manual configuration.
         - name: password
           type: password
           regexpValidator: '^.{5,100}?$'
           label: PostgreSQL admin password
-          descriptionTitle: Password
           description: >-
-            Please provide the root PostgreSQL password.
+            Please provide the PostgreSQL admin password.
           helpText: >-
             Password must be between 5 and 100 characters long.
   - volumeConfiguration:
@@ -110,7 +109,7 @@ Forms:
           type: keypair
           label: Key Pair
           description: >-
-            Select the Key Pair to access the instance. You can login to
+            Select the Key Pair to access the instances. You can login to
             instances using this Key Pair after the deployment of application.
           required: false
         - name: unitNamingPattern
@@ -123,15 +122,15 @@ Forms:
             invalid: Only letters, numbers, underscores and hyphens are allowed.
           helpText: Only letters, numbers, underscores and hyphens are allowed.
           description: >-
-            Specify a string, that will be used in instance hostname.
-            Only A-Z, a-z, 0-9, dash and underline are allowed.
+            Specify a string that will be used in instance hostname.
+            Only A-Z, a-z, 0-9, dash, and underline are allowed.
   - backupConfiguration:
       fields:
         - name: title
           type: string
           required: false
           hidden: true
-          descriptionTitle: Backup Configuration
+          label: Backup Configuration
         - name: doBackups
           type: boolean
           label: Check to enable backups
@@ -151,9 +150,8 @@ Forms:
           type: password
           required: false
           regexpValidator: '^.{5,100}?$'
-          label: Openstack password
-          descriptionTitle: Password
+          label: OpenStack password
           description: >-
-            Please provide your OpenStack password to access the object storage system.
+            Please provide your OpenStack password to access the object storage service.
           helpText: >-
             Password must be between 5 and 20 characters long.
