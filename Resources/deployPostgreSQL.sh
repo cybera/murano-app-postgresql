@@ -50,5 +50,5 @@ else #CentOS
 fi
 
 sudo -u postgres psql -c "ALTER USER postgres WITH PASSWORD '%POSTGRES_PASSWORD%';"
-echo "*:*:*:postgres:%POSTGRES_PASSWORD%" | tee --append /root/.pgpass
-chmod 600 /root/.pgpass
+echo "*:*:*:postgres:%POSTGRES_PASSWORD%" | sudo tee --append /root/.pgpass
+sudo chmod 600 /root/.pgpass

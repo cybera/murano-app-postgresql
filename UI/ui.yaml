@@ -59,7 +59,7 @@ Forms:
             Otherwise remote access will be  disabled by deafult, to enable it - please proceed with manual configuration.
         - name: password
           type: password
-          regexpValidator: '^.{5,100}?$'
+          regexpValidator: '^[A-Za-z\d_$@$!%*#?&]{5,100}?$'
           label: PostgreSQL admin password
           description: >-
             Please provide the PostgreSQL admin password.
@@ -149,9 +149,10 @@ Forms:
         - name: password
           type: password
           required: false
-          regexpValidator: '^.{5,100}?$'
-          label: OpenStack password
+          regexpValidator: '^.{5,50}?$'
+          label: Openstack password
+          descriptionTitle: Password
           description: >-
             Please provide your OpenStack password to access the object storage service.
           helpText: >-
-            Password must be between 5 and 20 characters long.
+            Password must be between 5 and 50 characters long.

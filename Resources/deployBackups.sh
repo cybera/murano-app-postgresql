@@ -26,7 +26,7 @@ esac
 
 echo "export OS_TENANT_ID=%TENANTID%
 export OS_USERNAME=%USERNAME%
-export OS_PASSWORD=%PASSWORD%
+export OS_PASSWORD='%PASSWORD%'
 export OS_AUTH_URL=https://${_keystone}:5000/v2.0/
 export OS_AUTH_STRATEGY=keystone
 export OS_REGION_NAME=${_region}" >> /root/openrc
@@ -35,8 +35,13 @@ if (python -mplatform | grep -qi Ubuntu)
 then #Ubuntu
     apt-get install -y python-pip python-swiftclient
 else #CentOS
-    rm -rf /usr/lib/python2.7/site-packages/requests
-    yum -y install python-requests python-swiftclient
+    yum install -y python-setuptools
+    easy_install pip
+    pip install --upgrade setuptools
+    pip install python-swiftclient python-keystoneclient
+    pip install --upgrade --force-reinstall 'requests==2.6.0'
+    pip install --upgrade --force-reinstall 'six==1.9.0'
+    pip install --upgrade --force-reinstall 'urllib3==1.10.2'
 fi
 
 mkdir /var/lib/postgres_backups
