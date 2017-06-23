@@ -38,7 +38,8 @@ else #CentOS
     yum install -y python-setuptools
     easy_install pip
     pip install --upgrade setuptools
-    pip install python-swiftclient python-keystoneclient
+    pip install python-swiftclient
+    pip install python-keystoneclient
     pip install --upgrade --force-reinstall 'requests==2.6.0'
     pip install --upgrade --force-reinstall 'six==1.9.0'
     pip install --upgrade --force-reinstall 'urllib3==1.10.2'
