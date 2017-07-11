@@ -17,6 +17,7 @@ Application:
     flavor: $.instanceConfiguration.flavor
     image: $.instanceConfiguration.osImage
     keyname: $.instanceConfiguration.keyPair
+    assignFloatingIp: $.appConfiguration.assignFloatingIP
     securityGroupName: 'MuranoSecurityGroup-PostgreSQL'
     volumes:
       '/dev/vdd':
@@ -39,6 +40,15 @@ Forms:
           description: >-
            Enter a desired name for the application. Just A-Z, a-z, 0-9, dash and
            underline are allowed
+        - name: assignFloatingIP
+          type: boolean
+          label: Assign Floating IP
+          description: >-
+             Select to true to assign floating IP automatically
+          initial: false
+          required: false
+          widgetMedia:
+            css: {all: ['muranodashboard/css/checkbox.css']}
   - dbConfiguration:
       fields:
         - name: title

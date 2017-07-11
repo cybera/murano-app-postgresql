@@ -75,6 +75,13 @@ Methods:
               - conf:Linux.runCommand($.instance.agent, $file)
               - $._environment.reporter.report($this, 'Backups are enabled.')
 
-          - $host: $.instance.ipAddresses.first()
+          - $file: sys:Resources.string('sleep.sh')
+          - conf:Linux.runCommand($.instance.agent, $file)
+
+          - If: $.instance.assignFloatingIp
+            Then:
+              - $host: $.instance.floatingIpAddress
+            Else:
+              - $host: $.instance.ipAddresses.first()
           - $._environment.reporter.report($this, 'PostgreSQL is available at ' + $host + ':5432')
           - $.setAttr(deployed, true)
